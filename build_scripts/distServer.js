@@ -3,26 +3,20 @@
 import express from 'express';
 import path from 'path';
 import opn from 'opn';
-import webpack from 'webpack';
-import config from '../webpack.config.dev';
+import compression from 'compression';
 
 const port = process.env.WEB_SERVER_PORT || 3001;
 const app = express();
-const compiler = webpack(config);
 
 // Middleware configuration
 // TO-DO: Make this actually work.  I think webpack-dev-server is causing an issue
+app.use(compression());
 app.disable('x-powered-by');
-
-app.use(require('webpack-dev-middleware')(compiler, {
-	noInfo: true,
-	publicPath: config.output.publicPath
-}));
-
+app.use(express.static('dist'));
 
 // Application routes
 app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, '../src/index.html'));
+	res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.get('/users', (req, res) => {
