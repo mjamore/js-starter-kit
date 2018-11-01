@@ -33,7 +33,8 @@ export default {
 				minifyJS: true,
 				minifyCSS: true,
 				minifyURLs: true
-			}
+			},
+			trackJSToken: '1ca0f49fa2f04fa58bccebb7c9afa281'
 		}),
 		new MiniCssExtractPlugin({
 			filename: '[name].[contenthash].css',
