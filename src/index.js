@@ -1,4 +1,5 @@
-import './index.css';
+// import './index.css';
+import './scss/appStyles.scss'
 import {getUsers, deleteUser} from './api/userApi';
 
 getUsers().then(result => {

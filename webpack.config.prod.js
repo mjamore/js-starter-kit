@@ -1,6 +1,7 @@
 import path from 'path';
 import Dotenv from 'dotenv-webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 export default {
 	devtool: 'source-map',
@@ -33,6 +34,10 @@ export default {
 				minifyCSS: true,
 				minifyURLs: true
 			}
+		}),
+		new MiniCssExtractPlugin({
+			filename: '[name].[contenthash].css',
+			chunkFilename: '[id].css'
 		})
 	],
 	module: {
@@ -43,8 +48,12 @@ export default {
 				loaders: ['babel-loader']
 			},
 			{
-				test: /.css$/,
-				loaders: ['style-loader', 'css-loader']
+				test: /\.(sa|sc|c)ss$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader',
+					'sass-loader'
+				]
 			}
 		]
 	},
