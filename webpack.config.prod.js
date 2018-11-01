@@ -4,15 +4,16 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
 	devtool: 'source-map',
-	entry: [
-		path.resolve(__dirname, 'src/index')
-	],
+	entry: {
+		main: path.resolve(__dirname, 'src/index'),
+		vendor: path.resolve(__dirname, 'src/vendor')
+	},
 	mode: 'development',
 	target: 'web',
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		publicPath: '/',
-		filename: 'bundle.js'
+		filename: '[name].js'
 	},
 	plugins: [
 		new Dotenv(),
@@ -51,6 +52,26 @@ export default {
 		fs: "empty"
 	},
 	optimization: {
-		minimize: true
+		minimize: true,
+		splitChunks: {
+			chunks: 'async',
+			minSize: 30000,
+			maxSize: 0,
+			maxAsyncRequests: 5,
+			maxInitialRequests: 3,
+			automaticNameDelimiter: '~',
+			name: true,
+			cacheGroups: {
+				vendors: {
+					test: /[\\/]node_modules[\\/]/,
+					priority: -10
+				},
+				default: {
+					minChunks: 2,
+					priority: -20,
+					reuseExistingChunk: true
+				}
+			}
+		}
 	}
 }
